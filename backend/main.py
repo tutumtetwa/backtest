@@ -12,7 +12,8 @@ app = FastAPI(title="AlphaTest API", version="1.0.0")
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    os.getenv("FRONTEND_URL", "https://alphatest.vercel.app"),
+    "https://backtest-eight.vercel.app",
+    os.getenv("FRONTEND_URL", ""),
 ]
 
 app.add_middleware(

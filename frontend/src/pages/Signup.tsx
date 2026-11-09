@@ -56,10 +56,11 @@ export default function Signup() {
         <div className="card p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="label">Email address</label>
+              <label className="label" htmlFor="email">Email address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
                 <input
+                  id="email"
                   type="email"
                   className="input pl-10"
                   placeholder="you@example.com"
@@ -71,10 +72,11 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="label">Password</label>
+              <label className="label" htmlFor="password">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
                 <input
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   className="input pl-10 pr-10"
                   placeholder="At least 6 characters"
@@ -86,6 +88,7 @@ export default function Signup() {
                   type="button"
                   className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-300"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -93,10 +96,11 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="label">Confirm password</label>
+              <label className="label" htmlFor="confirm">Confirm password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
                 <input
+                  id="confirm"
                   type={showPassword ? 'text' : 'password'}
                   className="input pl-10"
                   placeholder="Re-enter password"

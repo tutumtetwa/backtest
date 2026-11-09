@@ -13,12 +13,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    if (!email || !password) {
-      toast.error('Please fill in all fields')
-      return
-    }
+  const signIn = async (email: string, password: string) => {
     setLoading(true)
     try {
       const response = await apiClient.post('/auth/login', { email, password })
@@ -32,6 +27,15 @@ export default function Login() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!email || !password) {
+      toast.error('Please fill in all fields')
+      return
+    }
+    await signIn(email, password)
   }
 
   return (
@@ -53,10 +57,11 @@ export default function Login() {
         <div className="card p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="label">Email address</label>
+              <label className="label" htmlFor="email">Email address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
                 <input
+                  id="email"
                   type="email"
                   className="input pl-10"
                   placeholder="you@example.com"
@@ -68,10 +73,11 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="label">Password</label>
+              <label className="label" htmlFor="password">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-2.5 w-4 h-4 text-gray-500" />
                 <input
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   className="input pl-10 pr-10"
                   placeholder="••••••••"
@@ -83,6 +89,7 @@ export default function Login() {
                   type="button"
                   className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-300"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -105,6 +112,16 @@ export default function Login() {
             </button>
           </form>
 
+          <button
+            type="button"
+            onClick={() => signIn('demo@alphatest.com', 'demo1234')}
+            disabled={loading}
+            className="mt-3 w-full py-2.5 text-base rounded-lg border border-gray-700 text-gray-200 hover:bg-gray-800 transition-colors"
+          >
+            Try the demo account
+          </button>
+          <p className="mt-2 text-center text-xs text-gray-500">demo@alphatest.com / demo1234</p>
+
           <div className="mt-6 pt-6 border-t border-gray-800 text-center text-sm text-gray-500">
             Don't have an account?{' '}
             <Link to="/signup" className="text-blue-400 hover:text-blue-300 font-medium">
@@ -114,7 +131,7 @@ export default function Login() {
         </div>
 
         <p className="text-center text-xs text-gray-600 mt-6">
-          By signing in you agree to our terms of service.
+          Portfolio demo · accounts aren't saved · market data from Yahoo Finance
         </p>
       </div>
     </div>

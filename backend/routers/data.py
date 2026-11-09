@@ -45,5 +45,7 @@ def get_ohlcv(
     if cache_key in _cache:
         return {"symbol": symbol.upper(), "data": _cache[cache_key]}
     results = _fetch_yf(symbol, from_date, to_date)
+    if len(_cache) >= 256:  # bound memory on long-lived instances
+        _cache.pop(next(iter(_cache)))
     _cache[cache_key] = results
     return {"symbol": symbol.upper(), "data": results}
